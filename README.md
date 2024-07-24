@@ -1,5 +1,17 @@
 # PsFormstack
 
+## Development
+
+### Create a symlink in PowerShell's "Modules" folder
+```pwsh
+$ModuleName='PsFormstack'
+$Here = Get-Location
+$ModulePath = ($ENV:PSModulePath -split ([System.Environment]::OSVersion -eq '' ? ';' : ':'))[0]
+Push-Location $ModulePath
+ln -s "$Here/$ModuleName" $ModuleName
+Pop-Location
+```
+
 ## Examples
 
 ### Get-FormstackForm
