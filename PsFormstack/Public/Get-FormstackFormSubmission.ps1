@@ -25,11 +25,22 @@ function Get-FormstackFormSubmission {
     page = 1
   }
 
-  $Uri = 'https://www.formstack.com/api/v2/form/{0}/submission.json?{1}' -f $FormId, $QS
-  Write-Debug "Uri: $Uri"
+  do {
 
-  $Response = Invoke-WebRequest -Uri $Uri -Method Get -Headers $Headers
-  $Content = $Response.Content | ConvertFrom-Json
-  $Content.submissions
+    Write-Verbose ("Fetching page {0}..." -f $Params.page)
+
+    # convert to querystring
+    $QS = ($Params.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" }) -join '&'
+
+    $Uri = 'https://www.formstack.com/api/v2/form/{0}/submission.json?{1}' -f $FormId, $QS
+    Write-Debug "Uri: $Uri"
+
+    $Response = Invoke-WebRequest -Uri $Uri -Method Get -Headers $Headers
+    $Content = $Response.Content | ConvertFrom-Json
+    $Content.submissions
+
+    $Params.page+=1
+
+  } while ( $Content.submissions.count -gt 0 )
 
 }
