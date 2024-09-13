@@ -18,6 +18,8 @@ function New-FormstackFormSubmission {
     'Content-Type'='application/json'
   }
 
+  Write-Debug ($Body | ConvertTo-Json)
+  
   $Uri = 'https://www.formstack.com/api/v2/form/{0}/submission.json' -f $FormId
   Write-Debug "Uri: $Uri"
 
