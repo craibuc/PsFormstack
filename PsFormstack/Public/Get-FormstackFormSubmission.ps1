@@ -9,7 +9,11 @@ function Get-FormstackFormSubmission {
     [string]$EncryptionKey,
 
     [Parameter(Mandatory)]
-    [int]$FormId
+    [int]$FormId,
+
+    [Parameter()]
+    [object[]]$Filter
+
   )
 
   $Headers = @{
@@ -25,6 +29,10 @@ function Get-FormstackFormSubmission {
     page = 1
   }
 
+  $Filter.ForEach({ 
+    $Params += $_
+  })
+  
   do {
 
     Write-Verbose ("Fetching page {0}..." -f $Params.page)
