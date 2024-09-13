@@ -1,6 +1,6 @@
 function New-FormstackFormSubmission {
 
-  [CmdletBinding()]
+  [CmdletBinding(SupportsShouldProcess)]
   param (
     [Parameter(Mandatory)]
     [string]$AccessToken,
@@ -8,7 +8,7 @@ function New-FormstackFormSubmission {
     [Parameter(Mandatory)]
     [int]$FormId,
 
-    [Parameter(Mandatory)]
+    [Parameter(Mandatory,ValueFromPipeline)]
     [object]$Body
   )
 
@@ -21,8 +21,12 @@ function New-FormstackFormSubmission {
   $Uri = 'https://www.formstack.com/api/v2/form/{0}/submission.json' -f $FormId
   Write-Debug "Uri: $Uri"
 
-  $Response = Invoke-WebRequest -Uri $Uri -Method Post -Headers $Headers -Body ($Body | ConvertTo-Json)
-  $Content = $Response.Content | ConvertFrom-Json
-  $Content
+  if ($PSCmdlet.ShouldProcess("/form/$FormId/submission.json", "POST")) {
+
+    $Response = Invoke-WebRequest -Uri $Uri -Method Post -Headers $Headers -Body ($Body | ConvertTo-Json)
+    $Content = $Response.Content | ConvertFrom-Json
+    $Content
+
+  }
 
 }
