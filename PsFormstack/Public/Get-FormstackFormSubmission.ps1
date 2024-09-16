@@ -44,8 +44,11 @@ function Get-FormstackFormSubmission {
     Write-Debug "Uri: $Uri"
 
     $Response = Invoke-WebRequest -Uri $Uri -Method Get -Headers $Headers
-    $Content = $Response.Content | ConvertFrom-Json
-    $Content.submissions
+
+    if ($Response.Content) {
+      $Content = $Response.Content | ConvertFrom-Json
+      $Content.submissions  
+    }
 
     $Params.page+=1
 

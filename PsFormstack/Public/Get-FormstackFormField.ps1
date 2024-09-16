@@ -16,7 +16,10 @@ function Get-FormstackFormField {
   }
 
   $Response = Invoke-WebRequest -Uri $Uri -Method Get -Headers $Headers
-  $Content = $Response.Content | ConvertFrom-Json
-  $Content
+
+  if ($Response.Content) {
+    $Content = $Response.Content | ConvertFrom-Json
+    $Content
+  }
 
 }

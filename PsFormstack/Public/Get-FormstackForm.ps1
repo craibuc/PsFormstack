@@ -11,7 +11,11 @@ function Get-FormstackForm {
   }
 
   $Response = Invoke-WebRequest -Uri $Uri -Method Get -Headers $Headers
-  $Content = $Response.Content | ConvertFrom-Json
-  $Content.forms
+  Write-Debug "StatusCode: $( $Response.StatusCode )"
+
+  if ($Response.Content) {
+    $Content = $Response.Content | ConvertFrom-Json
+    $Content.forms  
+  }
 
 }
