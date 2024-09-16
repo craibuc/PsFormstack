@@ -26,8 +26,11 @@ function New-FormstackFormSubmission {
   if ($PSCmdlet.ShouldProcess("/form/$FormId/submission.json", "POST")) {
 
     $Response = Invoke-WebRequest -Uri $Uri -Method Post -Headers $Headers -Body ($Body | ConvertTo-Json)
-    $Content = $Response.Content | ConvertFrom-Json
-    $Content
+
+    if ($Response.Content) {
+      $Content = $Response.Content | ConvertFrom-Json
+      $Content  
+    }
 
   }
 
