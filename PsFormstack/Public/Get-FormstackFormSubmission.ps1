@@ -46,7 +46,7 @@ function Get-FormstackFormSubmission {
     $Response = Invoke-WebRequest -Uri $Uri -Method Get -Headers $Headers
 
     if ($Response.Content) {
-      $Content = $Response.Content | ConvertFrom-Json
+      $Content = $Response.Content | ConvertFrom-Json -Depth 10 -AsHashtable
       $Content.submissions  
     }
 
