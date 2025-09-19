@@ -12,7 +12,7 @@
 RootModule = 'PsFormstack.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.2.1'
+ModuleVersion = '0.4.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -72,6 +72,8 @@ Copyright = '(c) Cogniza. All rights reserved.'
 FunctionsToExport = @(
     'Get-FormstackForm','Get-FormstackFormField'
     'Get-FormstackFormSubmission','New-FormstackFormSubmission'
+    'Get-FormstackSubmission'
+    'Get-FormstackFormWebhook'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
