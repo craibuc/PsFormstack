@@ -1,0 +1,24 @@
+function Get-FormstackFormWebhook {
+  param (
+    [Parameter(Mandatory)]
+    [string]$AccessToken,
+
+    [Parameter(Mandatory)]
+    [int]$FormId
+  )
+  
+  $Uri = 'https://www.formstack.com/api/v2/form/{0}/webhook.json' -f $FormId
+  Write-Debug "Uri: $Uri"
+
+  $Headers = @{
+    Authorization="Bearer $AccessToken"
+    Accept='application/json'
+  }
+
+  $Response = Invoke-WebRequest -Uri $Uri -Method Get -Headers $Headers
+
+  if ($Response.Content) {
+    ($Response.Content | ConvertFrom-Json).webhooks
+  }
+
+}
