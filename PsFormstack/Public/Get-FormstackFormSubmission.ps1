@@ -47,7 +47,7 @@ function Get-FormstackFormSubmission {
 
     if ($Response.Content) {
       $Content = $Response.Content | ConvertFrom-Json -Depth 10 -AsHashtable
-      $Content.submissions  
+      $Content.submissions
     }
 
     $Params.page+=1
