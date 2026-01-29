@@ -35,7 +35,16 @@ function Get-FormstackSubmissionFile {
     $response = Invoke-WebRequest -Uri $Uri -Headers $Headers
   }
   catch {
-    throw "Failed to download file from Formstack: $_"
+
+    $Message = if ( $_.ErrorDetails?.Message ) {
+      $e = $_.ErrorDetails.Message | ConvertFrom-Json
+      '{0} - {1}' -f $e.status, $e.error
+    }
+    else { $_.Exception.Message }
+
+    Write-Host "ERROR: $Message" -ForegroundColor Red
+
+    return
   }
 
   # Extract filename from Content-Disposition header
@@ -48,7 +57,8 @@ function Get-FormstackSubmissionFile {
     $FileName = $Matches[1]
   }
   else {
-    throw "Could not determine filename from Content-Disposition header."
+    Write-Error "Could not determine filename from Content-Disposition header."
+    return
   }
 
   Write-Debug "FileName: $FileName"
